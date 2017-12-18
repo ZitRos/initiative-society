@@ -1,5 +1,5 @@
-const Initiative = artifacts.require("Initiative");
+const Initiatives = artifacts.require("Initiatives");
 
 module.exports = function (deployer) {
-	deployer.deploy(Initiative);
+	deployer.deploy(Initiatives);
 };
