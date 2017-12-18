@@ -4,13 +4,13 @@
   "description": "A prototype of online social welfare platform on Ethereum Blockchain.",
   "main": "index.js",
   "dependencies": {
-    "truffle": "^4.0.3",
-    "web3": "^1.0.0-beta.26"
+    "truffle": "^4.0.3"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
-    "truffle": "cd src/ethereum && truffle"
+    "truffle": "cd src/ethereum && truffle",
+    "win-truffle": "cd src/ethereum && truffle.cmd"
   },
   "repository": {
     "type": "git",
