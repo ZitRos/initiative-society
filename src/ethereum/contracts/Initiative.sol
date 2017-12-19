@@ -1,5 +1,8 @@
 pragma solidity ^0.4.16;
 
+/**
+ * Contract that handles initiatives and all the work around.
+ */
 contract Initiatives {
 
     struct Initiative {
@@ -19,10 +22,25 @@ contract Initiatives {
 
     event InitiativeCreated(uint id);
 
-    function Initiatives() public {
-
+    function getInitiativeById (uint id) public view returns(
+        address, uint8, bytes20, address, address[], uint, bool
+    ) {
+        return (
+        initiative[id].initiator, initiative[id].acceptance, initiative[id].contentHash,
+        initiative[id].executor, initiative[id].backers, initiative[id].totalFunds,
+        initiative[id].closed
+        );
     }
 
+    function getBackerAmountByInitiativeId (uint id, address backer) public view returns(uint) {
+        return initiative[id].funds[backer];
+    }
+
+    /**
+     * @param contentHash Hash of the title/description.
+     * @param acceptance Percentage of voters needed to accept the executor's work.
+     * @return Created initiative ID.
+     */
     function createInitiative (bytes20 contentHash, uint8 acceptance) public returns(uint) {
         uint id = ++lastInitiativeId;
         initiative[id].initiator = msg.sender;
@@ -30,20 +48,6 @@ contract Initiatives {
         initiative[id].contentHash = contentHash;
         InitiativeCreated(id);
         return id;
-    }
-
-    function getInitiativeById (uint id) public view returns(
-        address, uint8, bytes20, address, address[], uint, bool
-    ) {
-        return (
-            initiative[id].initiator, initiative[id].acceptance, initiative[id].contentHash,
-            initiative[id].executor, initiative[id].backers, initiative[id].totalFunds,
-            initiative[id].closed
-        );
-    }
-
-    function getBackerAmountByInitiativeId (uint id, address backer) public view returns(uint) {
-        return initiative[id].funds[backer];
     }
 
 }
