@@ -17,6 +17,8 @@ contract Initiatives {
 
     mapping (uint => Initiative) public initiative;
 
+    event InitiativeCreated(uint id);
+
     function Initiatives() public {
 
     }
@@ -26,6 +28,7 @@ contract Initiatives {
         initiative[id].initiator = msg.sender;
         initiative[id].acceptance = acceptance;
         initiative[id].contentHash = contentHash;
+        InitiativeCreated(id);
         return id;
     }
 

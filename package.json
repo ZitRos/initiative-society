@@ -8,11 +8,12 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test": "npm run win-truffle -- test",
     "truffle": "cd src/ethereum && truffle",
     "win-truffle": "cd src/ethereum && truffle.cmd",
     "init": "npm install && cd src/client && npm install",
-    "testnet": "npm run win-truffle -- develop",
+    "testnet-win": "npm run win-truffle -- develop",
+    "testnet": "npm run truffle -- develop",
     "start": "cd src/client && npm run start"
   },
   "repository": {

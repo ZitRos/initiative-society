@@ -22,10 +22,10 @@ cd initiative-society
 npm run init
 ```
 
-Then, launch the developer's test Ethereum network:
+Then, launch the developer's test Ethereum network (suffix `-win` on windows, no suffix on *nix):
 
 ```bash
-npm run testnet
+npm run testnet-win
 ```
 
 In the prompt, type `migrate` and **do not close this console/terminal**. Then, open up
