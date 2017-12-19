@@ -2,6 +2,8 @@ pragma solidity ^0.4.16;
 
 /**
  * Contract that handles initiatives and all the work around.
+ * This contract holds a total balance which is distributed across the initiatives in determined
+ * ways by this contract.
  */
 contract Initiatives {
 
@@ -48,6 +50,22 @@ contract Initiatives {
         initiative[id].contentHash = contentHash;
         InitiativeCreated(id);
         return id;
+    }
+
+    /**
+     * Add funds to initiative.
+     * @param id Initiative to back.
+     */
+    function backInitiative (uint id) public payable {
+        require(msg.value > 0); // backer should really transfer some value
+        require(initiative[id].initiator != address(0)); // initiative must exists
+        require(initiative[id].executor == address(0)); // cannot back executed initiative
+        require(initiative[id].closed == false); // cannot back closed initiative
+        if (initiative[id].funds[msg.sender] == 0) { // if backed for the first time
+            initiative[id].backers.push(msg.sender); // add to the list of backers
+        }
+        initiative[id].funds[msg.sender] += msg.value;
+        initiative[id].totalFunds += msg.value;
     }
 
 }
