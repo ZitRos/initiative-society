@@ -8,7 +8,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "npm run win-truffle -- test",
+    "test": "npm run truffle -- test",
     "truffle": "cd src/ethereum && truffle",
     "win-truffle": "cd src/ethereum && truffle.cmd",
     "init": "npm install && cd src/client && npm install",

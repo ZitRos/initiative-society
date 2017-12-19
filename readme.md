@@ -1,5 +1,7 @@
 # Initiative Society
 
+[![Build Status](https://travis-ci.org/ZitRos/initiative-society.svg?branch=master)](https://travis-ci.org/ZitRos/initiative-society)
+
 A prototype of online social welfare platform on Ethereum Blockchain.
 
 This platform is a prototype of online service, where people can create any
