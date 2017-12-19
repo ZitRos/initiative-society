@@ -8,8 +8,9 @@ contract('Initiatives', (accounts) => {
 	const initiative2Acceptance = 30; // 30%
 	const initiative1Initiator = accounts[1];
 	const initiative2Initiator = accounts[2];
-	const backer1 = accounts[3];
-	const amountOfBacker1ToInitiative1 = 500000;
+	const iBackers = [accounts[3], accounts[4], accounts[5]];
+	const iBackerAmounts = [500000, 1000000, 100000];
+	const iExecutors = [accounts[9], accounts[10]];
 
 	const utils = web3._extend.utils;
 
@@ -51,9 +52,7 @@ contract('Initiatives', (accounts) => {
 			assert.equal(initiative1Id, 1, "First initiative should have ID=1.");
 		}).then(() => {
 			return contract.getInitiativeById.call(initiative1Id);
-		}).then(([
-			initiator, acceptance, contentHash, executor, backers, totalFunds, closed
-		]) => {
+		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds, closed]) => {
 			assert.equal(initiator, initiative1Initiator, "Initiator should match");
 			assert.equal(acceptance, +initiative1Acceptance, "Acceptance should be as set");
 			assert.equal(
@@ -85,7 +84,7 @@ contract('Initiatives', (accounts) => {
 		let ex = null;
 
 		return contract.backInitiative(initiative1Id, {
-			from: backer1
+			from: iBackers[0]
 		}).catch((e) => {
 			ex = e;
 		}).then(() => {
@@ -99,7 +98,7 @@ contract('Initiatives', (accounts) => {
 		let ex = null;
 
 		return contract.backInitiative(100500, {
-			from: backer1
+			from: iBackers[0]
 		}).catch((e) => {
 			ex = e;
 		}).then(() => {
@@ -113,8 +112,8 @@ contract('Initiatives', (accounts) => {
 		let ex = null;
 
 		return contract.backInitiative(initiative1Id, {
-			from: backer1,
-			value: amountOfBacker1ToInitiative1
+			from: iBackers[0],
+			value: iBackerAmounts[0]
 		}).catch((e) => {
 			ex = e;
 		}).then(() => {
@@ -132,12 +131,64 @@ contract('Initiatives', (accounts) => {
 			);
 			assert.equal(parseInt(executor, 16), 0, "Executor must still be empty");
 			assert.equal(backers.length, 1, "Has one backer");
-			assert.equal(backers[0], backer1, "Backer is correctly set");
+			assert.equal(backers[0], iBackers[0], "Backer is correctly set");
 			assert.equal(closed, false, "Not closed by default");
-			assert.equal(+totalFunds, amountOfBacker1ToInitiative1, "Has transferred some funds");
-			return contract.getBackerAmountByInitiativeId.call(initiative1Id, backer1);
+			assert.equal(+totalFunds, iBackerAmounts[0], "Has transferred some funds");
+			return contract.getBackerAmountByInitiativeId.call(initiative1Id, iBackers[0]);
 		}).then((funds) => {
-			assert.equal(+funds, amountOfBacker1ToInitiative1, "Deposited correct amount");
+			assert.equal(+funds, iBackerAmounts[0], "Deposited correct amount");
+		});
+
+	});
+
+	it("Should allow more backers to be able to back the initiative", () => {
+
+		return contract.backInitiative(initiative1Id, {
+			from: iBackers[1],
+			value: iBackerAmounts[1]
+		}).then(() => {
+			return contract.getInitiativeById.call(initiative1Id);
+		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds]) => {
+			assert.equal(
+				+totalFunds,
+				iBackerAmounts[0] + iBackerAmounts[1],
+				"First two backers must add funds successfully"
+			);
+		}).then(() => {
+			return contract.backInitiative(initiative1Id, {
+				from: iBackers[2],
+				value: iBackerAmounts[2]
+			});
+		}).then(() => {
+			return contract.getInitiativeById.call(initiative1Id);
+		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds]) => {
+			assert.equal(
+				+totalFunds,
+				iBackerAmounts[0] + iBackerAmounts[1] + iBackerAmounts[2],
+				"All backers must add funds successfully"
+			);
+		});
+
+	});
+
+	it("Should allow executor to mark initiative as completed", () => {
+
+		return contract.completeInitiative(initiative1Id, {
+			from: iExecutors[0]
+		}).then(() => {
+			return contract.getInitiativeById.call(initiative1Id);
+		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds, closed]) => {
+			assert.equal(initiator, initiative1Initiator, "Initiator should match");
+			assert.equal(acceptance, +initiative1Acceptance, "Acceptance should be as set");
+			assert.equal(
+				initiative1ContentHash,
+				utils.toAscii(contentHash),
+				"Content hash should be as set"
+			);
+			assert.equal(executor, iExecutors[0], "Executor must be properly set");
+			assert.equal(backers.length > 0, true, "Has some backers");
+			assert.equal(totalFunds > 0, true, "Has some funds");
+			assert.equal(closed, false, "Not closed by default");
 		});
 
 	});

@@ -14,6 +14,9 @@ contract Initiatives {
         address executor; // A person who completed the initiative and uploaded the evidence
         address[] backers; // Addresses which backed this initiative
         mapping (address => uint) funds; // Amounts funded by backers
+        mapping (address => bool) votes; // After initiative completion backers vote
+        uint totalPositiveVotes; // Total positive votes received from backers
+        uint totalNegativeVotes; // Total negative votes received from backers
         uint totalFunds; // Total funds received by the initiative
         bool closed; // Determines whether initiative is closed
     }
@@ -50,6 +53,17 @@ contract Initiatives {
         initiative[id].contentHash = contentHash;
         InitiativeCreated(id);
         return id;
+    }
+
+    /**
+     * Mark the initiative completed by the sender.
+     * @param id Initiative to complete.
+     */
+    function completeInitiative (uint id) public {
+        require(initiative[id].initiator != address(0)); // initiative must exists
+        require(initiative[id].totalFunds > 0); // cannot mark "empty" initiative as completed
+        require(initiative[id].executor == address(0)); // cannot mark completed initiative again
+        initiative[id].executor = msg.sender;
     }
 
     /**
