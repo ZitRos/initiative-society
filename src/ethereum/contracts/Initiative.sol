@@ -31,9 +31,9 @@ contract Initiatives {
         address, uint8, bytes20, address, address[], uint, bool
     ) {
         return (
-        initiative[id].initiator, initiative[id].acceptance, initiative[id].contentHash,
-        initiative[id].executor, initiative[id].backers, initiative[id].totalFunds,
-        initiative[id].closed
+            initiative[id].initiator, initiative[id].acceptance, initiative[id].contentHash,
+            initiative[id].executor, initiative[id].backers, initiative[id].totalFunds,
+            initiative[id].closed
         );
     }
 

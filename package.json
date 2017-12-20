@@ -8,13 +8,14 @@
   },
   "devDependencies": {},
   "scripts": {
+    "init": "npm install && cd src/client && npm install",
+    "start": "cd src/client && npm run start",
     "test": "npm run truffle -- test",
     "truffle": "cd src/ethereum && truffle",
-    "win-truffle": "cd src/ethereum && truffle.cmd",
-    "init": "npm install && cd src/client && npm install",
-    "testnet-win": "npm run win-truffle -- develop",
     "testnet": "npm run truffle -- develop",
-    "start": "cd src/client && npm run start"
+    "win-test": "npm run win-truffle -- test",
+    "win-truffle": "cd src/ethereum && truffle.cmd",
+    "win-testnet": "npm run win-truffle -- develop"
   },
   "repository": {
     "type": "git",
