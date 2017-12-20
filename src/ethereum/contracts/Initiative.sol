@@ -46,7 +46,7 @@ contract Initiatives {
      * @param acceptance Percentage of voters needed to accept the executor's work.
      * @return Created initiative ID.
      */
-    function createInitiative (bytes20 contentHash, uint8 acceptance) public returns(uint) {
+    function create (bytes20 contentHash, uint8 acceptance) public returns(uint) {
         uint id = ++lastInitiativeId;
         initiative[id].initiator = msg.sender;
         initiative[id].acceptance = acceptance;
@@ -59,7 +59,7 @@ contract Initiatives {
      * Mark the initiative completed by the sender.
      * @param id Initiative to complete.
      */
-    function completeInitiative (uint id) public {
+    function complete (uint id) public {
         require(initiative[id].initiator != address(0)); // initiative must exists
         require(initiative[id].totalFunds > 0); // cannot mark "empty" initiative as completed
         require(initiative[id].executor == address(0)); // cannot mark completed initiative again
@@ -70,7 +70,7 @@ contract Initiatives {
      * Add funds to initiative.
      * @param id Initiative to back.
      */
-    function backInitiative (uint id) public payable {
+    function back (uint id) public payable {
         require(msg.value > 0); // backer should really transfer some value
         require(initiative[id].initiator != address(0)); // initiative must exists
         require(initiative[id].executor == address(0)); // cannot back executed initiative

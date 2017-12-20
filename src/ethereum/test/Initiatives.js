@@ -14,7 +14,7 @@ contract('Initiatives', (accounts) => {
 
 	const utils = web3._extend.utils;
 
-	let contract = null,
+	let initiative = null,
 		initiative1Id = null,
 		initiative2Id = null;
 
@@ -22,9 +22,9 @@ contract('Initiatives', (accounts) => {
 
 		return Initiatives.deployed().then((instance) => {
 
-			contract = instance;
+			initiative = instance;
 
-			assert.notEqual(contract, null);
+			assert.notEqual(initiative, null);
 			assert.notEqual(
 				+web3.eth.getBalance(accounts[0]),
 				+web3.eth.getBalance(accounts[1]),
@@ -40,7 +40,7 @@ contract('Initiatives', (accounts) => {
 
 		let balance = +web3.eth.getBalance(initiative1Initiator);
 
-		return contract.createInitiative(initiative1ContentHash, initiative1Acceptance, {
+		return initiative.create(initiative1ContentHash, initiative1Acceptance, {
 			from: initiative1Initiator
 		}).then((tx) => {
 			initiative1Id = +tx.logs[0].args.id;
@@ -51,7 +51,7 @@ contract('Initiatives', (accounts) => {
 			);
 			assert.equal(initiative1Id, 1, "First initiative should have ID=1.");
 		}).then(() => {
-			return contract.getInitiativeById.call(initiative1Id);
+			return initiative.getInitiativeById.call(initiative1Id);
 		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds, closed]) => {
 			assert.equal(initiator, initiative1Initiator, "Initiator should match");
 			assert.equal(acceptance, +initiative1Acceptance, "Acceptance should be as set");
@@ -70,7 +70,7 @@ contract('Initiatives', (accounts) => {
 
 	it("Should correctly create second initiative", () => {
 
-		return contract.createInitiative(initiative2ContentHash, initiative2Acceptance, {
+		return initiative.create(initiative2ContentHash, initiative2Acceptance, {
 			from: initiative2Initiator
 		}).then((tx) => {
 			initiative2Id = +tx.logs[0].args.id;
@@ -83,7 +83,7 @@ contract('Initiatives', (accounts) => {
 
 		let ex = null;
 
-		return contract.backInitiative(initiative1Id, {
+		return initiative.back(initiative1Id, {
 			from: iBackers[0]
 		}).catch((e) => {
 			ex = e;
@@ -97,7 +97,7 @@ contract('Initiatives', (accounts) => {
 
 		let ex = null;
 
-		return contract.backInitiative(100500, {
+		return initiative.back(100500, {
 			from: iBackers[0]
 		}).catch((e) => {
 			ex = e;
@@ -111,14 +111,14 @@ contract('Initiatives', (accounts) => {
 
 		let ex = null;
 
-		return contract.backInitiative(initiative1Id, {
+		return initiative.back(initiative1Id, {
 			from: iBackers[0],
 			value: iBackerAmounts[0]
 		}).catch((e) => {
 			ex = e;
 		}).then(() => {
 			assert.equal(ex, null, "must not throw exceptions");
-			return contract.getInitiativeById.call(initiative1Id);
+			return initiative.getInitiativeById.call(initiative1Id);
 		}).then(([
             initiator, acceptance, contentHash, executor, backers, totalFunds, closed
         ]) => {
@@ -134,7 +134,7 @@ contract('Initiatives', (accounts) => {
 			assert.equal(backers[0], iBackers[0], "Backer is correctly set");
 			assert.equal(closed, false, "Not closed by default");
 			assert.equal(+totalFunds, iBackerAmounts[0], "Has transferred some funds");
-			return contract.getBackerAmountByInitiativeId.call(initiative1Id, iBackers[0]);
+			return initiative.getBackerAmountByInitiativeId.call(initiative1Id, iBackers[0]);
 		}).then((funds) => {
 			assert.equal(+funds, iBackerAmounts[0], "Deposited correct amount");
 		});
@@ -143,11 +143,11 @@ contract('Initiatives', (accounts) => {
 
 	it("Should allow more backers to be able to back the initiative", () => {
 
-		return contract.backInitiative(initiative1Id, {
+		return initiative.back(initiative1Id, {
 			from: iBackers[1],
 			value: iBackerAmounts[1]
 		}).then(() => {
-			return contract.getInitiativeById.call(initiative1Id);
+			return initiative.getInitiativeById.call(initiative1Id);
 		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds]) => {
 			assert.equal(
 				+totalFunds,
@@ -155,12 +155,12 @@ contract('Initiatives', (accounts) => {
 				"First two backers must add funds successfully"
 			);
 		}).then(() => {
-			return contract.backInitiative(initiative1Id, {
+			return initiative.back(initiative1Id, {
 				from: iBackers[2],
 				value: iBackerAmounts[2]
 			});
 		}).then(() => {
-			return contract.getInitiativeById.call(initiative1Id);
+			return initiative.getInitiativeById.call(initiative1Id);
 		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds]) => {
 			assert.equal(
 				+totalFunds,
@@ -173,10 +173,10 @@ contract('Initiatives', (accounts) => {
 
 	it("Should allow executor to mark initiative as completed", () => {
 
-		return contract.completeInitiative(initiative1Id, {
+		return initiative.complete(initiative1Id, {
 			from: iExecutors[0]
 		}).then(() => {
-			return contract.getInitiativeById.call(initiative1Id);
+			return initiative.getInitiativeById.call(initiative1Id);
 		}).then(([initiator, acceptance, contentHash, executor, backers, totalFunds, closed]) => {
 			assert.equal(initiator, initiative1Initiator, "Initiator should match");
 			assert.equal(acceptance, +initiative1Acceptance, "Acceptance should be as set");

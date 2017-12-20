@@ -1,6 +1,6 @@
 {
   "name": "initiative-society",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A prototype of online social welfare platform on Ethereum Blockchain.",
   "main": "index.js",
   "dependencies": {
@@ -15,7 +15,8 @@
     "testnet": "npm run truffle -- develop",
     "win-test": "npm run win-truffle -- test",
     "win-truffle": "cd src/ethereum && truffle.cmd",
-    "win-testnet": "npm run win-truffle -- develop"
+    "win-testnet": "npm run win-truffle -- develop",
+    "pull": "git pull --recurse-submodules"
   },
   "repository": {
     "type": "git",
