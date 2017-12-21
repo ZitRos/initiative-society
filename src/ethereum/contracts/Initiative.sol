@@ -29,6 +29,10 @@ contract Initiatives {
     event InitiativeCreated(uint id);
     event InitiativeCompleted(bool success);
 
+    /**
+     * Return everything about initiative in one call.
+     * @param id Initiative to return.
+     */
     function getInitiativeById (uint id) public view returns(
         address initiator,
         uint8 acceptance,
@@ -38,8 +42,10 @@ contract Initiatives {
         uint totalFunds,
         bool closed,
         address[] voters,
-        bool[] votes
+        bool[] votes,
+        uint[] funds
     ) {
+        uint i;
         initiator = initiative[id].initiator;
         acceptance = initiative[id].acceptance;
         contentHash = initiative[id].contentHash;
@@ -49,9 +55,13 @@ contract Initiatives {
         closed = initiative[id].closed;
         voters = new address[](initiative[id].numberOfVotes);
         votes = new bool[](initiative[id].numberOfVotes);
-        for (uint i = 0; i < initiative[id].numberOfVotes; ++i) {
+        funds = new uint[](initiative[id].backers.length);
+        for (i = 0; i < initiative[id].numberOfVotes; ++i) {
             voters[i] = initiative[id].voters[i];
             votes[i] = initiative[id].vote[voters[i]];
+        }
+        for (i = 0; i < initiative[id].backers.length; ++i) {
+            funds[i] = initiative[id].funds[initiative[id].backers[i]];
         }
     }
 

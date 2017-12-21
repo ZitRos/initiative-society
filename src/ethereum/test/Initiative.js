@@ -5,12 +5,16 @@ function decodeGetInitiativeById (array) {
 		initiator: array[0],
 		acceptance: +array[1],
 		contentHash: array[2],
-		executor: array[3],
+		executor: parseInt(array[3], 16) === 0 ? null : array[3],
 		backers: array[4],
 		totalFunds: +array[5],
 		closed: array[6],
 		voters: array[7],
-		votes: array[8]
+		votes: array[8],
+		funds: array[4].reduce((funds, backer, i) => {
+			funds[backer] = +(array[9][i] || 0);
+			return funds;
+		}, {})
 	};
 }
 
@@ -78,7 +82,7 @@ contract('Initiatives', (accounts) => {
 				utils.toAscii(data.contentHash),
 				"Content hash should be as set"
 			);
-			assert.equal(parseInt(data.executor, 16), 0, "Executor must be empty");
+			assert.equal(data.executor, null, "Executor must be empty");
 			assert.equal(data.backers.length, 0, "No backers by default");
 			assert.equal(data.totalFunds, 0, "No funds by default");
 			assert.equal(data.closed, false, "Not closed by default");
@@ -146,7 +150,7 @@ contract('Initiatives', (accounts) => {
 				utils.toAscii(data.contentHash),
 				"Content hash should be as set"
 			);
-			assert.equal(parseInt(data.executor, 16), 0, "Executor must still be empty");
+			assert.equal(data.executor, null, "Executor must still be empty");
 			assert.equal(data.backers.length, 1, "Has one backer");
 			assert.equal(data.backers[0], iBackers[0], "Backer is correctly set");
 			assert.equal(data.closed, false, "Not closed by default");
@@ -179,8 +183,9 @@ contract('Initiatives', (accounts) => {
 		}).then(() => {
 			return initiative.getInitiativeById.call(initiative1Id);
 		}).then((ini) => {
+			const data = decodeGetInitiativeById(ini);
 			assert.equal(
-				decodeGetInitiativeById(ini).totalFunds,
+				data.totalFunds,
 				iBackerAmounts[0] + iBackerAmounts[1] + iBackerAmounts[2],
 				"All backers must add funds successfully"
 			);
