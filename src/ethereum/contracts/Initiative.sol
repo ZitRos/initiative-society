@@ -13,7 +13,7 @@ contract Initiatives {
         address initiator; // A guy who created this initiative
         address executor; // A person who completed the initiative and uploaded the evidence
         address[] backers; // Addresses which backed this initiative
-        address[] voters; // Addresses which voted on this initiative. Kept for reset purpose only
+        address[] voters; // Addresses which voted on this initiative
         mapping (address => uint) funds; // Amounts funded by backers
         mapping (address => bool) voted; // Whether the backer already voted
         mapping (address => bool) vote; // Backer's vote
@@ -63,10 +63,6 @@ contract Initiatives {
         for (i = 0; i < initiative[id].backers.length; ++i) {
             funds[i] = initiative[id].funds[initiative[id].backers[i]];
         }
-    }
-
-    function getBackerAmountByInitiativeId (uint id, address backer) public view returns(uint) {
-        return initiative[id].funds[backer];
     }
 
     /**
