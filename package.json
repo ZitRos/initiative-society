@@ -1,9 +1,13 @@
 {
   "name": "initiative-society",
-  "version": "0.6.0",
+  "version": "0.8.0",
   "description": "A prototype of online social welfare platform on Ethereum Blockchain.",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphql": "^0.12.3",
+    "sha1": "^1.1.1",
     "truffle": "^4.0.3"
   },
   "devDependencies": {},
@@ -16,7 +20,8 @@
     "win-test": "npm run win-truffle -- test",
     "win-truffle": "cd src/ethereum && truffle.cmd",
     "win-testnet": "npm run win-truffle -- develop",
-    "pull": "git pull --recurse-submodules"
+    "pull": "git pull --recurse-submodules && git submodule update",
+    "server": "node src/server/index.js"
   },
   "repository": {
     "type": "git",

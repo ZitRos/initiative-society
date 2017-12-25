@@ -1,3 +1,6 @@
-export const web3ProviderPort = 9545;
-export const graphQlEndpoint = "/graphql";
-export const graphQlPort = 4000;
+module.exports = {
+	web3ProviderHost: "127.0.0.1",
+	web3ProviderPort: 9545,
+	graphQlEndpoint: "/graphql",
+	graphQlPort: 4000
+};

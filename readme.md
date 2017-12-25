@@ -20,7 +20,7 @@ Setup
 -----
 
 To set up the _development_ project, you have to have [NodeJS v8+](https://nodejs.org) installed. 
-Perform the following:
+First, clone and initialize the repository:
 
 ```bash
 git clone --recursive https://github.com/ZitRos/initiative-society
@@ -28,14 +28,40 @@ cd initiative-society
 npm run init
 ```
 
-Then, launch the developer's test Ethereum network (prefix with `win-` on windows):
+If you have problems (most likely on Windows) when executing `npm run init`, try installing required
+build tools with `npm install --global windows-build-tools`.
+
+Then you need to launch **3 different servers**: backend (GraphQL), frontend (Angular) and Truffle
+emulated network. Launch them in **different terminal windows** and **do not close them**. Follow 
+the instructions below to do so.
+
+#### Launching Ethereum Node
+
+For testing, you can launch the developer's test Ethereum network (prefix the next command with 
+`win-` on windows):
 
 ```bash
 npm run win-testnet
 ```
 
-In the prompt, type `migrate` and **do not close this console/terminal**. Then, open up
-**a new console/terminal window**, `cd` to the project directory and run the following:
+In the prompt, type `migrate` and **do not close this console/terminal**. 
+
+#### Launching Static Backend
+
+Static backend serves large files and content, checksum of which is recorded into the Blockchain, so
+the client always knows whether that content is not tampered. 
+
+To run the server, do the following:
+
+```bash
+npm run server
+```
+
+When the server is run for the first time, it will populate some data to the test network.
+
+#### Launching Frontend
+
+Run the following:
 
 ```bash
 npm run start
