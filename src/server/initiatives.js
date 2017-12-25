@@ -1,8 +1,8 @@
 const InitiativesContract = require("../ethereum/build/contracts/Initiatives.json");
 const Web3 = require("../client/node_modules/web3");
-const { web3ProviderPort } = require("../global/const.js");
+const { web3ProviderHost, web3ProviderPort } = require("../global/const.js");
 const truffleContract = require("../client/node_modules/truffle-contract");
-const serverUrl = `http://127.0.0.1:${ web3ProviderPort }`;
+const serverUrl = `http://${ web3ProviderHost }:${ web3ProviderPort }`;
 const provider = new Web3.providers.HttpProvider(serverUrl);
 const contract = truffleContract(InitiativesContract);
 const { decodeGetInitiativeById } = require("../global/utils.js");
