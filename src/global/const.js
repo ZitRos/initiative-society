@@ -1,2 +1,3 @@
-export const web3HttpUrl = "http://localhost:8545";
-export const restServiceUrl = "http://localhost:80";
+export const web3ProviderPort = 9545;
+export const graphQlEndpoint = "/graphql";
+export const graphQlPort = 4000;
