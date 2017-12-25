@@ -3,9 +3,9 @@ const sha1 = require("sha1");
 module.exports = {
 
 	decodeGetInitiativeById: (array) => ({
-		initiator: array[0],
+		initiator: parseInt(array[0], 16) === 0 ? null : array[0],
 		acceptance: +array[1],
-		contentHash: array[2],
+		contentHash: parseInt(array[2], 16) === 0 ? null : array[2],
 		executor: parseInt(array[3], 16) === 0 ? null : array[3],
 		backers: array[4],
 		totalFunds: +array[5],
