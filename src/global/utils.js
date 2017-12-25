@@ -1,3 +1,5 @@
+const sha1 = require("sha1");
+
 module.exports = {
 
 	decodeGetInitiativeById: (array) => ({
@@ -14,6 +16,17 @@ module.exports = {
 			funds[backer] = +(array[9][i] || 0);
 			return funds;
 		}, {})
-	})
+	}),
+
+	hashInitiative: (initiative = {}) => sha1(
+		  "-" + sha1(initiative.id || "")
+		+ "-" + sha1(initiative.title || "")
+		+ "-" + sha1(initiative.description || "")
+		+ "-" + sha1(initiative.latitude || "")
+		+ "-" + sha1(initiative.longitude || "")
+		+ "-" + sha1(initiative.image || "")
+		+ "-" + sha1(initiative.cover || "")
+		+ "-" + sha1(initiative.link || "")
+	)
 
 };
