@@ -519,6 +519,14 @@ contract('Initiatives', (accounts) => {
 
 	});
 
+	it("Should return id of one initiative, because this initiative is not closed", () => {
+
+		return initiative.getOpenedInitiativesIds().then((answer) => {
+			assert.equal(+answer[0], initiative2Id, "should return id of initiative2");
+		});
+
+	});
+
 	it("Should complete initiative when new voted executor comes in", () => {
 
 		return initiative.complete(initiative2Id, {
@@ -547,5 +555,13 @@ contract('Initiatives', (accounts) => {
 		});
 
 	});
+
+	it("Should not return any id, because all initiatives are closed", () => {
+
+		return initiative.getOpenedInitiativesIds().then((answer) => {
+			assert.equal(+answer[0], 0, "should be equal 0");
+		});
+
+});
 
 });
