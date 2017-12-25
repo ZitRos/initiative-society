@@ -33,6 +33,23 @@ module.exports = {
 		+ "-" + sha1("")
 		+ "-" + sha1("")
 		+ "-" + sha1("")
-	)
+	),
+
+	hex2a: function (hexx) {
+		const hex = hexx.toString();
+		let str = "";
+		for (let i = 0; i < hex.length; i += 2)
+			str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+		return str;
+	},
+
+	a2hex: function (str) {
+		const arr = [];
+		for (let i = 0, l = str.length; i < l; i ++) {
+			let hex = Number(str.charCodeAt(i)).toString(16);
+			arr.push(hex);
+		}
+		return arr.join("");
+	}
 
 };
