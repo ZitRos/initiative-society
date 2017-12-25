@@ -27,6 +27,12 @@ module.exports = {
 		+ "-" + sha1(initiative.image || "")
 		+ "-" + sha1(initiative.cover || "")
 		+ "-" + sha1(initiative.link || "")
+		+ "-" + sha1("") // keep for future enhancements
+		+ "-" + sha1("")
+		+ "-" + sha1("")
+		+ "-" + sha1("")
+		+ "-" + sha1("")
+		+ "-" + sha1("")
 	)
 
 };
