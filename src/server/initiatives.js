@@ -7,6 +7,7 @@ const provider = new Web3.providers.HttpProvider(serverUrl);
 const contract = truffleContract(InitiativesContract);
 const { decodeGetInitiativeById } = require("../global/utils.js");
 
+console.log(`Initializing web3 provider...`);
 contract.setProvider(provider.currentProvider || provider);
 
 // dirty hack for web3@1.0.0 support for localhost testrpc,

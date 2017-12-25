@@ -1,35 +1,37 @@
 const express = require("express");
 const graphQlHTTP = require("express-graphql");
-const { buildSchema } = require("graphql");
 const { graphQlEndpoint, graphQlPort } = require("../global/const.js");
 const app = express();
-const initiatives = require("./initiatives.js");
-
-const schema = buildSchema(`
-  
-  type Initiative {
-    initiator: String,
-    closed: Boolean,
-    contentHash: String
-  }
-  
-  type Query {
-    initiative(id: Int!): Initiative
-  }
-  
-`);
+const schema = require("./graphQlSchema.js");
+const db = require("./db.js");
 
 const root = {
 
-	initiative: async function ({ id }) {
+	getContent: async function ({ id }) {
 
-		const initiative = await initiatives.getInitiativeById(id);
+		let initiative;
 
-		return {
-			initiator: initiative.initiator,
-			closed: initiative.closed,
-			contentHash: initiative.contentHash
-		};
+		try {
+			initiative = await db.get(id);
+		} catch (e) {
+			throw e;
+		}
+
+		return initiative;
+
+	},
+
+	saveContent: async function ({ initiative }) {
+
+		let ini;
+
+		try {
+			ini = await db.save(initiative);
+		} catch (e) {
+			throw e;
+		}
+
+		return ini;
 
 	}
 
@@ -38,7 +40,7 @@ const root = {
 app.use(graphQlEndpoint, graphQlHTTP({
 	schema: schema,
 	rootValue: root,
-	graphiql: true,
+	graphiql: true
 }));
 
 app.listen(graphQlPort);
