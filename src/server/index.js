@@ -4,6 +4,7 @@ const { graphQlEndpoint, graphQlPort } = require("../global/const.js");
 const app = express();
 const schema = require("./graphQlSchema.js");
 const db = require("./db.js");
+const populate = require("./populate.js");
 
 const root = {
 
@@ -43,5 +44,13 @@ app.use(graphQlEndpoint, graphQlHTTP({
 	graphiql: true
 }));
 
-app.listen(graphQlPort);
-console.log(`Running a GraphQL API server at localhost:${ graphQlPort }${ graphQlEndpoint }`);
+app.listen(graphQlPort, () => {
+
+	console.log(`Running a GraphQL API server at localhost:${ graphQlPort }${ graphQlEndpoint }`);
+
+	populate().catch((e) => {
+		console.error(e);
+	});
+
+});
+

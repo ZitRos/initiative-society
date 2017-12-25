@@ -1,4 +1,4 @@
-const { hashInitiative, a2hex } = require("../global/utils.js");
+const { hashInitiativeContent, a2hex } = require("../global/utils.js");
 const { getInitiativeById } = require("./initiatives.js");
 
 /**
@@ -19,11 +19,11 @@ module.exports.save = async function (content = {}) {
 			throw new Error(`Required property ${ prop } is not set.`);
 	}
 
-	const hash = hashInitiative(content);
+	const hash = hashInitiativeContent(content);
 	let hashInBlockchain = "";
 
 	try {
-		hashInBlockchain = a2hex(await getInitiativeById(content.id));
+		hashInBlockchain = (await getInitiativeById(content.id)).contentHash;
 	} catch (e) {
 		throw e;
 	}

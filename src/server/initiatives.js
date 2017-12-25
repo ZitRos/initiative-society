@@ -6,6 +6,7 @@ const serverUrl = `http://${ web3ProviderHost }:${ web3ProviderPort }`;
 const provider = new Web3.providers.HttpProvider(serverUrl);
 const contract = truffleContract(InitiativesContract);
 const { decodeGetInitiativeById } = require("../global/utils.js");
+const web3 = new Web3(provider);
 
 console.log(`Initializing web3 provider...`);
 contract.setProvider(provider.currentProvider || provider);
@@ -37,6 +38,17 @@ async function ready () {
 
 }
 
+module.exports.getAccounts = async function () {
+
+	try {
+		return await web3.eth.getAccounts();
+	} catch (e) {
+		console.error(e);
+		return [];
+	}
+
+};
+
 module.exports.getInitiativeById = async function getInitiative (id) {
 
 	if (!await ready())
@@ -44,6 +56,20 @@ module.exports.getInitiativeById = async function getInitiative (id) {
 
 	try {
 		return decodeGetInitiativeById(await initiatives.getInitiativeById(id));
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
+
+};
+
+module.exports.create = async function create (contentHash, acceptance, setup) {
+
+	if (!await ready())
+		return null;
+
+	try {
+		return +(await initiatives.create(contentHash, acceptance, setup)).logs[0].args.id;
 	} catch (e) {
 		console.error(e);
 		return null;
