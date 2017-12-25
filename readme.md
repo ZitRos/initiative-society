@@ -9,8 +9,9 @@ geo-bound initiatives (like planting flowers, cleaning garbage, etc), vote
 for them, crowdfund or complete them.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/4989256/34041876-bd65278e-e1a2-11e7-8dd8-989ec8c5c243.png">
-  <img src="https://user-images.githubusercontent.com/4989256/34157000-56ec84ec-e4c8-11e7-9b6b-d4bb3a1932f8.png">
+  <img src="https://user-images.githubusercontent.com/4989256/34339864-e4f7d3cc-e982-11e7-87e7-7d00d4ff1609.png"/>
+  <img src="https://user-images.githubusercontent.com/4989256/34041876-bd65278e-e1a2-11e7-8dd8-989ec8c5c243.png"/>
+  <img src="https://user-images.githubusercontent.com/4989256/34157000-56ec84ec-e4c8-11e7-9b6b-d4bb3a1932f8.png"/>
 </p>
 
 This project is under development.
