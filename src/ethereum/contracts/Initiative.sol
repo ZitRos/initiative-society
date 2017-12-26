@@ -71,7 +71,7 @@ contract Initiatives {
         uint i;
         uint opened = 0;
 
-        for (i = 0; i < lastInitiativeId; ++i) {
+        for (i = 1; i <= lastInitiativeId; ++i) {
              if (initiative[i].closed == false)
                  ++opened;
         }

@@ -542,9 +542,9 @@ contract('Initiatives', (accounts) => {
 	it("Should not return any id, because all initiatives are closed", () => {
 
 		return initiative.getOpenedInitiativesIds().then((answer) => {
-			assert.equal(+answer[0], 0, "should be equal 0");
+            assert.equal(answer.length, 0, "should be equal 0");
 		});
 
-});
+	});
 
 });
