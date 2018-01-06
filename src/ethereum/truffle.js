@@ -1,11 +1,4 @@
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
   // to customize your Truffle configuration!
-  networks: {
-    development: {
-      host: "0.0.0.0",
-      port: 9545,
-      network_id: "*"
-    }
-  }
 };
