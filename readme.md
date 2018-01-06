@@ -8,6 +8,8 @@ This platform is a prototype of online service, where people can create any
 geo-bound initiatives (like planting flowers, cleaning garbage, etc), vote
 for them, crowdfund or complete them.
 
+### [See the demo here!](http://initiative-society-demo.zitros.tk)
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/4989256/34339864-e4f7d3cc-e982-11e7-87e7-7d00d4ff1609.png"/>
   <img src="https://user-images.githubusercontent.com/4989256/34041876-bd65278e-e1a2-11e7-8dd8-989ec8c5c243.png"/>
