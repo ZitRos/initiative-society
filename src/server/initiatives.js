@@ -63,6 +63,20 @@ module.exports.getInitiativeById = async function getInitiative (id) {
 
 };
 
+module.exports.back = async function back (id, setup) {
+
+	if (!await ready())
+		return null;
+
+	try {
+		return await initiatives.back(id, setup);
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
+
+};
+
 module.exports.create = async function create (contentHash, acceptance, setup) {
 
 	if (!await ready())
