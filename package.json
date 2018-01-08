@@ -4,6 +4,7 @@
   "description": "A prototype of online social welfare platform on Ethereum Blockchain.",
   "main": "index.js",
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
     "graphql": "^0.12.3",

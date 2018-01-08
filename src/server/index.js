@@ -5,6 +5,7 @@ const app = express();
 const schema = require("./graphQlSchema.js");
 const db = require("./db.js");
 const populate = require("./populate.js");
+const cors = require('cors');
 
 const root = {
 
@@ -38,6 +39,7 @@ const root = {
 
 };
 
+app.use(cors());
 app.use(graphQlEndpoint, graphQlHTTP({
 	schema: schema,
 	rootValue: root,
