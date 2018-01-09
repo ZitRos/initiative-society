@@ -60,6 +60,31 @@ const dataToPopulate = [{
 			{ account: 3, value: 0.08 }
 		]
 	}
+}, {
+	initiative: {
+		acceptance: 70,
+		title: "Organize a Rock Concert on the Street!",
+		description: "People living in this region are big fans of rock music. We need a true festival! We want more rock!\n\n" +
+		  "Please join out social event: [facebook](https://www.facebook.com/events/1469677526461097/)",
+		latitude: 50.36605076702987,
+		longitude: 30.494613647460938,
+		image: "https://sites.google.com/site/1950speka/_/rsrc/1338186185844/example-content-page/rock%20and%20roll%20sign.jpg?height=214&width=210"
+	},
+	populate: {
+		initiatorAccount: 7,
+		backers: [
+			{ account: 1, value: 0.5 },
+			{ account: 5, value: 0.3 },
+			{ account: 8, value: 0.7 },
+			{ account: 9, value: 1 }
+		],
+		executor: 4,
+		voting: [
+			{ account: 1, value: true },
+			{ account: 5, value: true },
+			{ account: 8, value: false }
+		]
+	}
 }];
 
 module.exports = async function populate () {
@@ -91,6 +116,20 @@ module.exports = async function populate () {
 			}));
 		} catch (e) {
 			console.error(`Unable to back initiative ID=${ initiative.id }`);
+		}
+		if (populate.executor) {
+			await initiatives.complete(initiative.id, {
+				from: accounts[populate.executor],
+				gas: 3000000
+			});
+		}
+		if (populate.voting) {
+			await Promise.all(populate.voting.map(({ account, value }) => {
+				return initiatives.vote(initiative.id, value, {
+					from: accounts[account],
+					gas: 3000000
+				});
+			}));
 		}
 		await db.save(initiative);
 		console.log(`Populated initiative ID=${ initiative.id } (${ initiative.title })`);

@@ -91,4 +91,32 @@ module.exports.create = async function create (contentHash, acceptance, setup) {
 
 };
 
+module.exports.complete = async function complete (id, setup) {
+
+	if (!await ready())
+		return null;
+
+	try {
+		return await initiatives.complete(id, setup);
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
+
+};
+
+module.exports.vote = async function complete (id, positive = true, setup) {
+
+	if (!await ready())
+		return null;
+
+	try {
+		return await initiatives.vote(id, positive, setup);
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
+
+};
+
 module.exports.ready = ready;
