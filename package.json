@@ -1,6 +1,6 @@
 {
   "name": "initiative-society",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A prototype of online social welfare platform on Ethereum Blockchain.",
   "main": "index.js",
   "dependencies": {
